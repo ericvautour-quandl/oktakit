@@ -1,6 +1,32 @@
 module Oktakit
   class Client
     module Users
+      # Authenticate User
+      # curl -v -X POST \
+      # -H "Accept: application/json" \
+      # -H "Content-Type: application/json" \
+      # -d '{
+      #   "username": "dade.murphy@example.com",
+      #   "password": "correcthorsebatterystaple",
+      #   "options": {
+      #     "multiOptionalFactorEnroll": false,
+      #     "warnBeforePasswordExpired": false
+      #   }
+      # }' "https://${yourOktaDomain}/api/v1/authn"
+      def authenticate_user(username, password, options = {})
+        params = {
+          username: username,
+          password: password,
+          options: {
+            multiOptionalFactorEnroll: false,
+            warnBeforePasswordExpired: false
+          }.merge(options)
+        }
+
+        post("/authn", params)
+      end
+
+
       # Create User
       #
       # @param options[:query] [Hash] Optional. Query params for request
